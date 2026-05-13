@@ -1527,7 +1527,7 @@ rnb.run.exploratory <- function(rnb.set, dir.reports,
 		txt <- c("Overview of nv probes and sample comparison based on them cannot be performed ",
 			"because the dataset does not contain nv probes.")
 		report <- rnb.add.section(report, section.title, txt)
-	} else if (rnb.set@target == "probesEPICv2" & (rnb.getOption("nv.heatmap") | rnb.getOption("nv.beta.distribution"))) {
+	} else if (rnb.set@target == "probesEPICv2" & rnb.getOption("nv.probe.tables") & (rnb.getOption("nv.heatmap") | rnb.getOption("nv.beta.distribution"))) {
 		refText <- c("Kaur, D., Lee, S. M., Goldberg, D., Spix, N. J., Hinoue, T., Li, H.-T., Dwaraka, V. B., Smith, R., ",
 					 "Shen, H., Liang, G., Renke, N., Laird, P. W., & Zhou, W. (2023). Comprehensive evaluation of the Infinium human ",
 					 "MethylationEPIC v2 BeadChip. <i>Epigenetics Communications</i>, <b>3</b>(1), 6.")
@@ -1540,7 +1540,7 @@ rnb.run.exploratory <- function(rnb.set, dir.reports,
 		data.dir.rel <- rnb.get.directory(report, "data")
 		nv.probe.ids <- strsplit(rownames(nv.probes), split = "-")
 		rnb.require("biomaRt")
-		ensembl <- useMart("ENSEMBL_MART_ENSEMBL", dataset = "hsapiens_gene_ensembl",host="https://feb2023.archive.ensembl.org")
+		ensembl <- useMart("ENSEMBL_MART_ENSEMBL", dataset = "hsapiens_gene_ensembl",host="https://sep2025.archive.ensembl.org")
 		chromosomes <- sapply(nv.probe.ids, function(x) x[[3]])
 		start <- sapply(nv.probe.ids, function(x) x[[4]])
 		end <- sapply(nv.probe.ids, function(x) x[[5]])
