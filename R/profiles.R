@@ -700,7 +700,7 @@ rnb.get.nv.probes.matrix <- function(dataset, threshold.nas = 1) {
 			rnb.error("Not enough nv probe data available (too many missing values per probe)")
 		}
 		result <- result[-i, , drop = FALSE]
-		rnb.warning(paste(length(i), "probes ignored because their they contain too many NAs"))
+		rnb.warning(paste(length(i), "probes ignored because they contain too many NAs"))
 	}
 	i <- which(apply(is.na(result), 2, mean) > threshold.nas)
 	if (length(i) != 0) {
