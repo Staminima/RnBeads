@@ -433,8 +433,12 @@ computeDiffTab.default.site <- function(
 	}
 	# if residuals requested, compute per-group residual means and include them in the table
 	if (exists("resid_mat")){
-		resid.mean.g1 <- rowMeans(resid_mat[,inds.g1,drop=FALSE], na.rm=TRUE)
-		resid.mean.g2 <- rowMeans(resid_mat[,inds.g2,drop=FALSE], na.rm=TRUE)
+		# limmaP returns residuals for the compared samples only, in the order c(inds.g1, inds.g2),
+		# so index by position for mean calculation.
+		n.g1 <- if(is.logical(inds.g1)) sum(inds.g1) else length(inds.g1)
+		n.g2 <- if(is.logical(inds.g2)) sum(inds.g2) else length(inds.g2)
+		resid.mean.g1 <- rowMeans(resid_mat[,seq_len(n.g1), drop=FALSE], na.rm=TRUE)
+		resid.mean.g2 <- rowMeans(resid_mat[,n.g1 + seq_len(n.g2), drop=FALSE], na.rm=TRUE)
 		resid.mean.diff <- resid.mean.g1 - resid.mean.g2
 		tt <- data.frame(mean.g1=mean.g1,mean.g2=mean.g2,mean.diff=mean.diff,mean.quot.log2=mean.quot.log2,diffmeth.p.val=p.vals,
 						 resid.mean.g1=resid.mean.g1,resid.mean.g2=resid.mean.g2,resid.mean.diff=resid.mean.diff)
