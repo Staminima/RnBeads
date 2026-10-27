@@ -496,7 +496,7 @@ computeDiffTab.default.site <- function(
 	  if (!all(p.vals.is.na)){
 	    if (any(p.vals.is.na)){
 	      logger.info(c(sum(p.vals.is.na),"p-values are NA. They are treated as 1 in FDR adjustment"))
-	      p.vals.var[p.vals.is.na] <- 1 # corrected by nima: the indices were is.na(p.val.t.na.adj)
+	      p.vals.var[p.vals.is.na] <- 1
 	    }
 	    p.vals.var.adj <- p.adjust(p.vals.var, method = "fdr")
 	  } else {
