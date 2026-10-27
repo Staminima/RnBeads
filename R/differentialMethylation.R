@@ -496,7 +496,7 @@ computeDiffTab.default.site <- function(
 	  if (!all(p.vals.is.na)){
 	    if (any(p.vals.is.na)){
 	      logger.info(c(sum(p.vals.is.na),"p-values are NA. They are treated as 1 in FDR adjustment"))
-	      p.vals.var[is.na(p.vals.t.na.adj)] <- 1
+	      p.vals.var[p.vals.is.na] <- 1 # corrected by nima: the indices were is.na(p.val.t.na.adj)
 	    }
 	    p.vals.var.adj <- p.adjust(p.vals.var, method = "fdr")
 	  } else {
@@ -517,8 +517,10 @@ computeDiffTab.default.site <- function(
 	  }
 	  neg.log10.p <- -log10(p.vals.var)
 	  neg.log10.fdr <- -log10(p.vals.var.adj)
+	  resid.attr <- attr(tt, "resid_mat")
 	  tt <- data.frame(tt,var.g1=var.g1,var.g2=var.g2,var.diff=var.diff,var.log.ratio=var.log.ratio,diffVar.p.val=p.vals.var,diffVar.p.adj.fdr=p.vals.var.adj,log10P=neg.log10.p,
 	                   log10FDR=neg.log10.fdr)
+	  if (!is.null(resid.attr)) attr(tt, "resid_mat") <- resid.attr
 	}
 	return(tt)
 }
@@ -627,7 +629,6 @@ computeDiffTab.extended.site <- function(
 	# preserve residual matrix attribute from basic table if present (cbind drop attributes)
 	if (!is.null(attr(tt.basic, "resid_mat"))) {
 		attr(tt, "resid_mat") <- attr(tt.basic, "resid_mat")
-		# logger.info("extended.site: residuals preserved in the returned table as an attribute")
 	}
 	return(tt)
 }
